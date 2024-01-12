@@ -1,0 +1,17 @@
+{
+    "yup": {
+        "invalidEmail":"Email is invalid",
+        "weakPassword":"Password is weak",
+        "required":"Required"
+    },
+    "loginScreen": {
+        "title": "Welcome",
+        "description": "Welcome to your Portal",
+        "email": "Email",
+        "password": "Password",
+        "passwordPlaceholder": "your.email@gmail.com",
+        "resetPassword": "Restore password",
+        "login": "Login",
+        "signUp": "Sign Up"
+    }
+}

@@ -1,0 +1,113 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "app/assets/fonts/Inter-Black.ttf",
+      "sha1": "f79fa58ace5f55e338c99bf71e7e0702841df6f2"
+    },
+    {
+      "path": "app/assets/fonts/Inter-Bold.ttf",
+      "sha1": "47ff07c75746682133b81e7ac0537ce50a4c9916"
+    },
+    {
+      "path": "app/assets/fonts/Inter-ExtraBold.ttf",
+      "sha1": "c9b3d2f2449ab2c67ff075f806973fa3d7e104b3"
+    },
+    {
+      "path": "app/assets/fonts/Inter-ExtraLight.ttf",
+      "sha1": "f78ee1d6cbfc64f656247c604ef270ef116abbf5"
+    },
+    {
+      "path": "app/assets/fonts/Inter-Light.ttf",
+      "sha1": "cbb2506d8da21edbb2dc8cfa26e3b42a97d138f8"
+    },
+    {
+      "path": "app/assets/fonts/Inter-Medium.ttf",
+      "sha1": "e76f580811e031813e7150131a0724811cdd737a"
+    },
+    {
+      "path": "app/assets/fonts/Inter-Regular.ttf",
+      "sha1": "cfa780d0b50b2bb7eacb82984f1b18a95aaa40c5"
+    },
+    {
+      "path": "app/assets/fonts/Inter-SemiBold.ttf",
+      "sha1": "5e0c44e57e7e090252d79f622899e67585bb892c"
+    },
+    {
+      "path": "app/assets/fonts/Inter-Thin.ttf",
+      "sha1": "757805e615c974756646e54ceff8e409d5c47207"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-Black.ttf",
+      "sha1": "6a68f04629aef2b2b27ae951f629458aa8164e4b"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-BlackItalic.ttf",
+      "sha1": "ba01f556d30a39cbc5448c6523ce7138941ab8c3"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-Bold.ttf",
+      "sha1": "e18f3ad767d6060b0c41d12eecd45aa152b28f45"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-BoldItalic.ttf",
+      "sha1": "eca88ec63d820673438a24a86c04f9c75a0a85f5"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-ExtraBold.ttf",
+      "sha1": "8838b5021f02750cd1a6560736a6047a5759c04c"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-ExtraBoldItalic.ttf",
+      "sha1": "fdd860c75df62eb029b46efa6f7c733590d3a97d"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-ExtraLight.ttf",
+      "sha1": "f2a64c3ee3b6712f93db5b52cfc16ef142dc13b4"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-ExtraLightItalic.ttf",
+      "sha1": "ed0d86cc3404a14d1398d4edd2a2cb0eaa6bd2f4"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-Italic.ttf",
+      "sha1": "0239edb9cfefa352bc048bd8f664d804f508cebf"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-Light.ttf",
+      "sha1": "98ae7e30e5a6674e4e1ba4ccbafd8ccc91a6af4f"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-LightItalic.ttf",
+      "sha1": "776dc9fad4998a786b25236464e5c104c2e7020a"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-Medium.ttf",
+      "sha1": "f85d0a08f987df19288a61f18a22519ce0551c3e"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-MediumItalic.ttf",
+      "sha1": "bbd6b023a02209586859fd12032ba04b479b393c"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-Regular.ttf",
+      "sha1": "692393fb9239fe61e47dff7232400c45770f162f"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-SemiBold.ttf",
+      "sha1": "44bd4f1602342642f6bbfc019cca65852d9f3ee0"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-SemiBoldItalic.ttf",
+      "sha1": "7fac3d0b8f4d43f47f00e176d3615127c2e34271"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-Thin.ttf",
+      "sha1": "cc85c909da54af71104b4b235780398337c986c3"
+    },
+    {
+      "path": "app/assets/fonts/NotoSans-ThinItalic.ttf",
+      "sha1": "44eca4a23f81b231512fde2acd733cb12198adf3"
+    }
+  ]
+}
