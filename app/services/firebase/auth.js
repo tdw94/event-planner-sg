@@ -15,10 +15,16 @@ export const signUp = (username, password, callback) => {
 export const signIn = (username, password, callback) => {
   auth()
     .signInWithEmailAndPassword(username, password)
-    .then((d) => {
+    .then(() => {
       callback(STATUS.SUCCESS);
     })
     .catch(error => {
       callback(STATUS.FAIL, error.code);
     });
+};
+
+export const signOut = () => {
+  auth()
+    .signOut()
+    .catch(console.error);
 };

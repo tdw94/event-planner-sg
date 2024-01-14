@@ -12,7 +12,8 @@
         "auth/wrong-password": "Invalid credentials",
         "auth/email-already-in-use": "The emails is already in use",
         "auth/invalid-credential": "Invalid credentials",
-        "commonError": "Something went wrong..."
+        "commonError": "Something went wrong...",
+        "emptyData": "No data available"
     },
     "loginScreen": {
         "title": "Welcome",
@@ -36,15 +37,35 @@
     "contactScreen": {
         "title": "Personal info",
         "description": "You can add your personal data now or do it later",
-        "firstName": "First Name",
-        "firstNamePlaceholder": "Enter your first Name",
+        "firstName": "First name",
+        "firstNamePlaceholder": "Enter your first name",
         "lastName": "Last Name",
-        "lastNamePlaceholder": "Enter your last Name",
+        "lastNamePlaceholder": "Enter your last name",
         "phoneNumber": "Phone number",
         "phoneNumberPlaceholder": "Enter your phone number",
         "address": "Mailing address",
         "addressPlaceholder": "Enter your mailing address",
         "next": "Next",
         "back": "Back"
+    },
+    "drawer": {
+        "logout": "Logout",
+        "version": "Version",
+        "fNamePlaceholder": "John",
+        "lNamePlaceholder": "Doe"
+    },
+    "home": {
+        "organizers": "Organizers",
+        "photos": "Photos",
+        "allPhotos": "All Photos",
+        "posts": "Posts",
+        "home": "Home",
+        "profile": "Profile"
+    },
+    "profile": {
+        "edit": "Edit",
+        "save": "Save",
+        "profile": "Profile",
+        "editProfile": "Edit profile"
     }
 }

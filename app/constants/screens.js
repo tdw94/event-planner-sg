@@ -3,5 +3,10 @@ export const screens = {
   signup: 'signup',
   welcome: 'welcome',
   personalInfo: 'personalInfo',
-  home: 'home'
+  home: 'home',
+  homeTabs: 'homeTabs',
+  homeDrawer: 'homeDrawer',
+  profile: 'profile',
+  editProfile: 'editProfile',
+  profileStack: 'profileStack'
 };

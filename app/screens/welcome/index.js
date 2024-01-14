@@ -12,6 +12,7 @@ import { screens } from '../../constants/screens';
 import { STATUS } from '../../constants/status';
 import { updateUserById } from '../../services/firebase/firestore';
 import { useUser } from '../../context/UserContext';
+import { getUniqueFileName } from '../../helpers/common';
 
 const Welcome = () => {
   const { t } = useTranslation();
@@ -36,14 +37,12 @@ const Welcome = () => {
 
   const uploadPhoto = () => {
     setIsLoading(true);
-    // create a unique name for the profile image
-    const currentTimeUnix = new Date().getTime();
-    const fileName = selectedPicture.current.path.split('/')?.pop();
-    uploadProfilePicture(`${currentTimeUnix}-${fileName}`, selectedPicture.current.path, (status, data) => {
+    uploadProfilePicture(getUniqueFileName(selectedPicture.current.path), selectedPicture.current.path, (status, data) => {
       if (status === STATUS.SUCCESS) {
         updateProfilePicture(data.photoUrl);
       } else {
         goToNext();
+        // show a fail message
       }
     });
   };
@@ -69,7 +68,7 @@ const Welcome = () => {
       <View style={styles.topContainer}>
         <Text style={styles.title}>{t('welcomeScreen.title')}</Text>
         <Text style={styles.description}>{t('welcomeScreen.description')}</Text>
-        <ProfilePicturePicker onDone={onChangeProfilePicture} />
+        <ProfilePicturePicker onDone={onChangeProfilePicture} editMode disabled={isLoading} />
       </View>
       <View style={styles.bottomContainer}>
         <Button

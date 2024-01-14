@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { colors } from '../../constants/colors';
 import CameraOrange from '../../assets/svg/CameraOrange.svg';
 import { accessGalleryRead } from '../../services/permission';
@@ -7,7 +7,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
 
-const ProfilePicturePicker = ({ onDone, imageUri }) => {
+const ProfilePicturePicker = ({ onDone, imageUri, Icon, editMode, disabled }) => {
   const [profileImage, setProfileImage] = useState();
 
   const openGallery = (returnObject) => {
@@ -47,39 +47,47 @@ const ProfilePicturePicker = ({ onDone, imageUri }) => {
       });
   };
   return (
-    <>
-      {profileImage?.path
+    <View style={styles.container}>
+      <FastImage source={{ uri: profileImage?.path || imageUri }} style={[styles.container, styles.profileImage]} resizeMode='center' />
+      {editMode
         ? (
-          <FastImage source={{ uri: profileImage.path || imageUri }} style={styles.profileImage} resizeMode='center' />
-        )
-        : (
-          <TouchableOpacity style={styles.profilePictureButton} onPress={onPressPicker}>
-            <CameraOrange />
+          <TouchableOpacity
+            style={[styles.container, styles.profilePictureButton]}
+            onPress={onPressPicker}
+            disabled={disabled}
+          >
+            {Icon ? <Icon /> : <CameraOrange />}
           </TouchableOpacity>
-        )}
-    </>
+        )
+        : null}
+    </View>
   );
 };
 
 export default ProfilePicturePicker;
 
 const styles = StyleSheet.create({
-  profileImage: {
+  container: {
     width: 116,
-    height: 116,
-    borderRadius: 58
+    height: 116
+  },
+  profileImage: {
+    borderRadius: 58,
+    backgroundColor: colors.lightOrange
   },
   profilePictureButton: {
-    width: 116,
-    height: 116,
     backgroundColor: colors.lightOrange,
     borderRadius: 58,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    position: 'absolute'
   }
 });
 
 ProfilePicturePicker.propTypes = {
   onDone: PropTypes.func,
-  imageUri: PropTypes.string
+  imageUri: PropTypes.string,
+  Icon: PropTypes.any,
+  editMode: PropTypes.bool,
+  disabled: PropTypes.bool
 };

@@ -17,6 +17,7 @@ export const UserProvider = ({ children }) => {
         // try to get data from firestore, if available, set user data, else, create user
         if (doc?.exists) {
           setUser(doc.data());
+          setInitializing(false);
         } else {
           // set flag to detect the first time user
           setFreshUser(true);
@@ -43,6 +44,7 @@ export const UserProvider = ({ children }) => {
           userId: userData.uid,
           email: userData.email
         });
+        setInitializing(false);
       }
     });
   };
@@ -51,8 +53,9 @@ export const UserProvider = ({ children }) => {
   const onAuthStateChanged = (userData) => {
     if (userData) {
       getUserDetails(userData);
+    } else {
+      setUser(userData);
     }
-    if (initializing) setInitializing(false);
   };
 
   useEffect(() => {
@@ -62,11 +65,13 @@ export const UserProvider = ({ children }) => {
 
   const userContext = useMemo(
     () => ({
+      initializing,
       user,
       refreshUser,
-      freshUser
+      freshUser,
+      setFreshUser
     }),
-    [user, freshUser]
+    [user, freshUser, initializing]
   );
 
   return <UserContext.Provider value={userContext}>{children}</UserContext.Provider>;

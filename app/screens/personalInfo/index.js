@@ -10,22 +10,21 @@ import { Formik } from 'formik';
 import Button from '../../components/button/Button';
 import { STATUS } from '../../constants/status';
 import { useNavigation } from '@react-navigation/native';
-import { screens } from '../../constants/screens';
 import { updateUserById } from '../../services/firebase/firestore';
 import { useUser } from '../../context/UserContext';
 
 const PersonalInfo = () => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
-  const { navigate, goBack } = useNavigation();
-  const { user, refreshUser } = useUser();
+  const { goBack } = useNavigation();
+  const { user, refreshUser, setFreshUser } = useUser();
 
   const onPressNext = (values) => {
     setIsLoading(true);
     updateUserById(user.userId, values, (status) => {
       if (status === STATUS.SUCCESS) {
         refreshUser();
-        navigate(screens.home, { from: screens.personalInfo });
+        setFreshUser(false);
       }
       setIsLoading(false);
     });
@@ -87,7 +86,6 @@ const PersonalInfo = () => {
                 onPress={onPressBack}
                 text={t('contactScreen.back')}
                 LeftComponent={() => <BlackArrowIcon />}
-                isLoading={isLoading}
                 disabled={isLoading}
                 style={[styles.backButton, styles.buttonStyle]}
                 textStyle={styles.backButtonText}
@@ -98,7 +96,9 @@ const PersonalInfo = () => {
                 text={t('contactScreen.next')}
                 RightComponent={() => <WhiteArrowIcon />}
                 style={styles.buttonStyle}
-                disabled={isLoading} />
+                disabled={isLoading}
+                isLoading={isLoading}
+              />
             </View>
           </>
         )}
