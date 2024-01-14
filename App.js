@@ -1,33 +1,19 @@
 import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View
+  SafeAreaView
 } from 'react-native';
-import { colors } from './app/constants/colors';
 import Navigation from './app/navigation';
 import { screenStyles } from './app/styles/screen-styles';
+import { UserProvider } from './app/context/UserContext';
 
 const App = () => {
   return (
     <SafeAreaView style={screenStyles.screen}>
-      <Navigation />
+      <UserProvider>
+        <Navigation />
+      </UserProvider>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  safeAreaView: {
-    flex: 1,
-    backgroundColor: colors.white
-  },
-  po: {
-
-  }
-});
 
 export default App;

@@ -1,17 +1,50 @@
 {
     "yup": {
-        "invalidEmail":"Email is invalid",
-        "weakPassword":"Password is weak",
-        "required":"Required"
+        "invalidEmail": "Email is invalid",
+        "weakPassword": "Password is weak",
+        "required": "Required",
+        "passwordNotMatch": "Passwords don't match"
+    },
+    "errors": {
+        "auth/invalid-email": "Email is invalid",
+        "auth/user-disabled": "The user is disabled",
+        "auth/user-not-found": "The user is not found",
+        "auth/wrong-password": "Invalid credentials",
+        "auth/email-already-in-use": "The emails is already in use",
+        "auth/invalid-credential": "Invalid credentials",
+        "commonError": "Something went wrong..."
     },
     "loginScreen": {
         "title": "Welcome",
         "description": "Welcome to your Portal",
         "email": "Email",
+        "emailPlaceholder": "your.email@gmail.com",
         "password": "Password",
-        "passwordPlaceholder": "your.email@gmail.com",
+        "passwordPlaceholder": "•••••••••",
         "resetPassword": "Restore password",
         "login": "Login",
         "signUp": "Sign Up"
+    },
+    "signUpScreen": {
+        "confirmPassword": "Confirm Password"
+    },
+    "welcomeScreen": {
+        "title": "Welcome",
+        "description": "You are logged in for the first time and can\nupload a profile photo",
+        "next": "Next"
+    },
+    "contactScreen": {
+        "title": "Personal info",
+        "description": "You can add your personal data now or do it later",
+        "firstName": "First Name",
+        "firstNamePlaceholder": "Enter your first Name",
+        "lastName": "Last Name",
+        "lastNamePlaceholder": "Enter your last Name",
+        "phoneNumber": "Phone number",
+        "phoneNumberPlaceholder": "Enter your phone number",
+        "address": "Mailing address",
+        "addressPlaceholder": "Enter your mailing address",
+        "next": "Next",
+        "back": "Back"
     }
 }

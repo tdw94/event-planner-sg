@@ -1,14 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { fonts } from '../../constants/fonts';
 import { colors } from '../../constants/colors';
 
-const Button = ({ text, RightComponent, onPress }) => {
+const Button = ({ text, RightComponent, LeftComponent, onPress, disabled, isLoading, style, textStyle }) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.text} numberOfLines={1}>{text}</Text>
-      {RightComponent ? <RightComponent /> : null}
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress} disabled={disabled}>
+      {LeftComponent ? <LeftComponent /> : null}
+      <Text style={[styles.text, textStyle]} numberOfLines={1}>{text}</Text>
+      {isLoading
+        ? <ActivityIndicator animating={isLoading} color={colors.white} size="small" />
+        : <>
+          {RightComponent ? <RightComponent /> : null}
+        </>
+      }
     </TouchableOpacity>
   );
 };
@@ -18,7 +24,12 @@ export default Button;
 Button.propTypes = {
   text: PropTypes.string,
   RightComponent: PropTypes.any,
-  onPress: PropTypes.func
+  LeftComponent: PropTypes.any,
+  onPress: PropTypes.func,
+  disabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  style: PropTypes.any,
+  textStyle: PropTypes.any
 };
 
 const styles = StyleSheet.create({

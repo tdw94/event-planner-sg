@@ -13,7 +13,9 @@ const Input = ({
   onBlur,
   isSecure,
   errorText,
-  keyboardType
+  keyboardType,
+  disabled,
+  placeholder
 }) => {
   return (
     <View style={styles.container}>
@@ -29,6 +31,9 @@ const Input = ({
           onBlur={onBlur}
           secureTextEntry={isSecure}
           keyboardType={keyboardType || 'default'}
+          editable={!disabled}
+          placeholder={placeholder}
+          placeholderTextColor={colors.black}
         />
         {RightComponent ? <RightComponent /> : null}
       </View>
@@ -47,8 +52,10 @@ Input.propTypes = {
   onChangeText: PropTypes.func,
   onBlur: PropTypes.func,
   isSecure: PropTypes.bool,
+  disabled: PropTypes.bool,
   errorText: PropTypes.string,
-  keyboardType: PropTypes.string
+  keyboardType: PropTypes.string,
+  placeholder: PropTypes.string
 };
 
 const styles = StyleSheet.create({
@@ -77,6 +84,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.NotoSansMedium,
     fontSize: 13,
     color: colors.grey,
-    paddingBottom: 10
+    paddingBottom: 10,
+    paddingLeft: 20
   }
 });
