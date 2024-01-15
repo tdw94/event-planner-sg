@@ -4,9 +4,12 @@ import { colors } from '../../constants/colors';
 import { fonts } from '../../constants/fonts';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { useNavigation } from '@react-navigation/native';
+import { screens } from '../../constants/screens';
 
 const PostsButton = ({ isLoading, count }) => {
   const { t } = useTranslation();
+  const { navigate } = useNavigation();
   return (
     <View style={styles.postsContainer}>
       {isLoading
@@ -14,9 +17,9 @@ const PostsButton = ({ isLoading, count }) => {
           <ActivityIndicator animating={isLoading} size='large' color={colors.orange} />
         )
         : (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate(screens.posts)}>
             <Text style={styles.postsCount}>{count || 0}</Text>
-            <Text style={styles.postsText}>{t('home.posts')}</Text>
+            <Text style={styles.postsText}>{t('homeScreen.posts')}</Text>
           </TouchableOpacity>
         )}
     </View>
@@ -48,6 +51,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 10
+    paddingVertical: 10,
+    marginBottom: 50
   }
 });

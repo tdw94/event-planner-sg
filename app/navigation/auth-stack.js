@@ -6,6 +6,7 @@ import SignUp from '../screens/signup';
 
 const Stack = createNativeStackNavigator();
 
+// screens for authentication flow
 const AuthStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

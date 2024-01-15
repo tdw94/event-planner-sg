@@ -1,30 +1,23 @@
 import auth from '@react-native-firebase/auth';
-import { STATUS } from '../../constants/status';
 
-export const signUp = (username, password, callback) => {
-  auth()
-    .createUserWithEmailAndPassword(username, password)
-    .then(() => {
-      callback(STATUS.SUCCESS);
-    })
-    .catch(error => {
-      callback(STATUS.FAIL, error.code);
-    });
+export const signUp = async (username, password) => {
+  return await auth().createUserWithEmailAndPassword(username, password);
 };
 
-export const signIn = (username, password, callback) => {
-  auth()
-    .signInWithEmailAndPassword(username, password)
-    .then(() => {
-      callback(STATUS.SUCCESS);
-    })
-    .catch(error => {
-      callback(STATUS.FAIL, error.code);
-    });
+export const signIn = async (username, password) => {
+  return await auth().signInWithEmailAndPassword(username, password);
+};
+
+export const requestEmailVerification = async () => {
+  await auth().currentUser.sendEmailVerification();
 };
 
 export const signOut = () => {
   auth()
     .signOut()
     .catch(console.error);
+};
+
+export const changeEmail = async (email) => {
+  return await auth().currentUser.verifyBeforeUpdateEmail(email);
 };

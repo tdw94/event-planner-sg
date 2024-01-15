@@ -6,6 +6,8 @@ import { colors } from '../../constants/colors';
 import { fonts } from '../../constants/fonts';
 import UserDataTile from '../userDataTile';
 import MessageIcon from '../../assets/svg/Message.svg';
+import ListLoader from '../listLoader';
+import EmptyData from '../emptyData';
 
 const OrganizerTile = ({ item, lastItem }) => {
   return (
@@ -25,11 +27,25 @@ const OrganizerList = ({ organizers = [], isLoading }) => {
   const { t } = useTranslation();
   return (
     <View style={styles.container}>
-      <Text style={styles.organizersText}>{t('home.organizers')}</Text>
+      <Text style={styles.organizersText}>{t('homeScreen.organizers')}</Text>
       <ScrollView style={styles.listView} nestedScrollEnabled removeClippedSubviews>
-        {organizers?.map((o, i) => (
-          <OrganizerTile key={o?.id} item={o} lastItem={i === organizers.length - 1} />
-        ))}
+        {isLoading
+          ? (
+            <ListLoader isLoading={isLoading} style={styles.listLoader} />)
+          : (<>
+            {organizers?.length
+              ? (
+                <>
+                  {organizers?.map((o, i) => (
+                    <OrganizerTile key={o?.id} item={o} lastItem={i === organizers.length - 1} />
+                  ))}
+                </>
+              )
+              : (
+                <EmptyData style={styles.listLoader} />
+              )}
+
+          </>)}
       </ScrollView>
     </View>
   );
@@ -48,6 +64,10 @@ OrganizerTile.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  listLoader: {
+    backgroundColor: colors.white,
+    height: 300
+  },
   listView: { height: 300 },
   organizerTileData: {
     flex: 1

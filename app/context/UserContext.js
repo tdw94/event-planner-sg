@@ -2,7 +2,8 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 import auth from '@react-native-firebase/auth';
 import PropTypes from 'prop-types';
 import { addUserToDb, getUserById } from '../services/firebase/firestore';
-import { STATUS } from '../constants/status';
+import { showErrorToast } from '../components/toast';
+import { useTranslation } from 'react-i18next';
 
 export const UserContext = createContext();
 
@@ -10,43 +11,48 @@ export const UserProvider = ({ children }) => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(null);
   const [freshUser, setFreshUser] = useState(false);
+  const { t } = useTranslation();
 
-  const getUserDetails = (userData) => {
-    getUserById(userData.uid, (status, doc) => {
-      if (status === STATUS.SUCCESS) {
-        // try to get data from firestore, if available, set user data, else, create user
-        if (doc?.exists) {
-          setUser(doc.data());
-          setInitializing(false);
-        } else {
-          // set flag to detect the first time user
-          setFreshUser(true);
-          createUser(userData);
-        }
-      } else {
-        //
-      }
-    });
-  };
-
-  const refreshUser = () => {
-    getUserById(user.userId, (status, doc) => {
-      if (status === STATUS.SUCCESS) {
-        setUser(doc.data());
-      }
-    });
-  };
-
-  const createUser = (userData) => {
-    addUserToDb(userData.uid, userData.email, (status) => {
-      if (status === STATUS.SUCCESS) {
-        setUser({
-          userId: userData.uid,
-          email: userData.email
-        });
+  const getUserDetails = async (userData) => {
+    try {
+      const userRef = await getUserById(userData.uid);
+      if (userRef?.exists) {
+        setUser(userRef.data());
         setInitializing(false);
+      } else {
+        // set flag to detect the first time user
+        setFreshUser(true);
+        createUser(userData);
       }
-    });
+    } catch (error) {
+      showErrorToast(t('errors.commonError'));
+      setInitializing(false);
+    }
+  };
+
+  // a method to get updated user from firestore
+  const refreshUser = async () => {
+    try {
+      const userRef = await getUserById(user.userId);
+      setUser(userRef.data());
+    } catch (error) {
+      showErrorToast(t('error.fetchError'));
+    }
+  };
+
+  // a method to create a user in firestore
+  const createUser = async (userData) => {
+    try {
+      await addUserToDb(userData.uid, userData.email);
+      setUser({
+        userId: userData.uid,
+        email: userData.email
+      });
+      setInitializing(false);
+    } catch (_error) {
+      showErrorToast(t('errors.signUpFail'));
+      setInitializing(false);
+    }
   };
 
   // Handle user state changes
@@ -54,13 +60,16 @@ export const UserProvider = ({ children }) => {
     if (userData) {
       getUserDetails(userData);
     } else {
+      // if logout, userData=null
       setUser(userData);
+      setInitializing(false);
     }
   };
 
   useEffect(() => {
+    // listen to user state changes (signIn/signUp/signOut)
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
+    return subscriber;
   }, []);
 
   const userContext = useMemo(

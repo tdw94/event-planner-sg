@@ -1,17 +1,15 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { screens } from '../constants/screens';
-import HomeTabs from './home-tabs';
 import DrawerContent from '../components/drawerContent';
-import EditProfile from '../screens/editProfile';
+import HomeStack from './home-stack';
 
 const DrawerNavigator = createDrawerNavigator();
 
 const Drawer = () => {
   return (
     <DrawerNavigator.Navigator screenOptions={{ headerShown: false }} drawerContent={() => <DrawerContent/>}>
-      <DrawerNavigator.Screen name={screens.homeTabs} component={HomeTabs} />
-      <DrawerNavigator.Screen name={screens.editProfile} component={EditProfile} />
+      <DrawerNavigator.Screen name={screens.homeStack} component={HomeStack} />
     </DrawerNavigator.Navigator>
   );
 };

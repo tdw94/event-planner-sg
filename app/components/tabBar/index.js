@@ -14,11 +14,11 @@ const TabBar = () => {
     <View style={styles.tabBar}>
       <TouchableOpacity style={styles.iconButton} onPress={() => navigate(screens.home)}>
         <HomeIcon />
-        <Text style={styles.text}>{i18n.t('home.home')}</Text>
+        <Text style={styles.text}>{i18n.t('homeScreen.home')}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.iconButton} onPress={() => navigate(screens.profileStack)}>
+      <TouchableOpacity style={styles.iconButton} onPress={() => navigate(screens.profile)}>
         <ProfileIcon />
-        <Text style={styles.text}>{i18n.t('home.profile')}</Text>
+        <Text style={styles.text}>{i18n.t('homeScreen.profile')}</Text>
       </TouchableOpacity>
     </View>
   );

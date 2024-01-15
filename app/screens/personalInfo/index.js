@@ -8,10 +8,10 @@ import WhiteArrowIcon from '../../assets/svg/WhiteArrow.svg';
 import BlackArrowIcon from '../../assets/svg/BlackArrow.svg';
 import { Formik } from 'formik';
 import Button from '../../components/button/Button';
-import { STATUS } from '../../constants/status';
 import { useNavigation } from '@react-navigation/native';
 import { updateUserById } from '../../services/firebase/firestore';
 import { useUser } from '../../context/UserContext';
+import { showErrorToast } from '../../components/toast';
 
 const PersonalInfo = () => {
   const { t } = useTranslation();
@@ -20,14 +20,19 @@ const PersonalInfo = () => {
   const { user, refreshUser, setFreshUser } = useUser();
 
   const onPressNext = (values) => {
+    processForm();
+  };
+
+  const processForm = async (values) => {
     setIsLoading(true);
-    updateUserById(user.userId, values, (status) => {
-      if (status === STATUS.SUCCESS) {
-        refreshUser();
-        setFreshUser(false);
-      }
+    try {
+      await updateUserById(user.userId, values);
       setIsLoading(false);
-    });
+      setFreshUser(false);
+      refreshUser();
+    } catch (error) {
+      showErrorToast(t('errors.saveError'));
+    }
   };
 
   const onPressBack = () => {

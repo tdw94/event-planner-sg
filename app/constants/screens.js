@@ -6,7 +6,10 @@ export const screens = {
   home: 'home',
   homeTabs: 'homeTabs',
   homeDrawer: 'homeDrawer',
+  homeStack: 'homeStack',
   profile: 'profile',
   editProfile: 'editProfile',
-  profileStack: 'profileStack'
+  profileStack: 'profileStack',
+  posts: 'posts',
+  comments: 'comments'
 };

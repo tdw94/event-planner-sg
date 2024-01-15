@@ -7,16 +7,17 @@ import Input from '../../components/input/Input';
 import MailIcon from '../../assets/svg/Mail.svg';
 import LockIcon from '../../assets/svg/Lock.svg';
 import WhiteArrowIcon from '../../assets/svg/WhiteArrow.svg';
+import PulledArrowIcon from '../../assets/svg/PulledArrow.svg';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import i18n from '../../../i18n';
 import SecureInput from '../../components/input/SecureInput';
 import Button from '../../components/button/Button';
 import { signIn } from '../../services/firebase/auth';
-import { STATUS } from '../../constants/status';
 import { ERROR_CODES } from '../../constants/errorCodes';
 import { useNavigation } from '@react-navigation/native';
 import { screens } from '../../constants/screens';
+import TextButton from '../../components/button/TextButton';
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email(i18n.t('yup.invalidEmail')).required(i18n.t('yup.required')),
@@ -35,21 +36,26 @@ const Login = () => {
 
   const onPressSignIn = (values) => {
     setErrorText('');
+    userSignIn(values);
+  };
+
+  const userSignIn = async (values) => {
     setIsLoading(true);
-    signIn(values.email, values.password, (status, response) => {
+    try {
+      await signIn(values.email, values.password);
       setIsLoading(false);
-      if (status === STATUS.FAIL) {
-        if (response === ERROR_CODES.AUTH_INVALID_EMAIL ||
-          response === ERROR_CODES.AUTH_ACC_DISABLED ||
-          response === ERROR_CODES.AUTH_USER_NOT_FOUND ||
-          response === ERROR_CODES.AUTH_INVALID_CREDENTIALS ||
-          response === ERROR_CODES.AUTH_WRONG_PW) {
-          setErrorText(t(`errors.${response}`));
-        } else {
-          setErrorText(t('errors.commonError'));
-        }
+    } catch (error) {
+      setIsLoading(false);
+      if (error?.code === ERROR_CODES.AUTH_INVALID_EMAIL ||
+        error?.code === ERROR_CODES.AUTH_ACC_DISABLED ||
+        error?.code === ERROR_CODES.AUTH_USER_NOT_FOUND ||
+        error?.code === ERROR_CODES.AUTH_INVALID_CREDENTIALS ||
+        error?.code === ERROR_CODES.AUTH_WRONG_PW) {
+        setErrorText(t(`errors.${error.code}`));
+      } else {
+        setErrorText(t('errors.commonError'));
       }
-    });
+    }
   };
 
   return (
@@ -86,6 +92,9 @@ const Login = () => {
                   disabled={isLoading}
                   placeholder={t('loginScreen.passwordPlaceholder')}
                 />
+                <View style={styles.resetPwContainer}>
+                  <TextButton text={t('loginScreen.resetPassword')} RightComponent={() => <PulledArrowIcon />} />
+                </View>
                 {errorText ? <Text style={styles.errorText}>{errorText}</Text> : null}
               </View>
             </View>
@@ -114,6 +123,9 @@ const Login = () => {
 export default Login;
 
 const styles = StyleSheet.create({
+  resetPwContainer: {
+    alignSelf: 'flex-end'
+  },
   errorText: {
     color: colors.orange,
     fontFamily: fonts.NotoSansRegular,

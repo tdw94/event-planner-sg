@@ -6,7 +6,6 @@ import { colors } from '../../constants/colors';
 import Input from '../../components/input/Input';
 import { Formik } from 'formik';
 import Button from '../../components/button/Button';
-import { STATUS } from '../../constants/status';
 import { updateUserById } from '../../services/firebase/firestore';
 import { useUser } from '../../context/UserContext';
 import Header from '../../components/header';
@@ -17,12 +16,22 @@ import { getUniqueFileName } from '../../helpers/common';
 import { useNavigation } from '@react-navigation/native';
 import { screens } from '../../constants/screens';
 import PropTypes from 'prop-types';
+import { showErrorToast, showSuccessToast } from '../toast';
+import * as Yup from 'yup';
+import i18n from '../../../i18n';
+import { changeEmail } from '../../services/firebase/auth';
+import { cloneDeep, set } from 'lodash';
+
+const formSchema = Yup.object().shape({
+  email: Yup.string().email(i18n.t('yup.invalidEmail')).required(i18n.t('yup.required'))
+});
 
 const ProfileForm = ({ editMode }) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { user, refreshUser } = useUser();
   const profilePicture = useRef(null);
+
   const { navigate, goBack } = useNavigation();
 
   const initialValues = useMemo(() => {
@@ -30,7 +39,8 @@ const ProfileForm = ({ editMode }) => {
       firstName: user?.firstName || '',
       lastName: user?.lastName || '',
       phoneNumber: user?.phoneNumber || '',
-      address: user?.address || ''
+      address: user?.address || '',
+      email: user?.email || ''
     };
   }, [user]);
 
@@ -38,57 +48,59 @@ const ProfileForm = ({ editMode }) => {
     profilePicture.current = image;
   };
 
-  const uploadPhoto = (values) => {
-    // upload profile picture
-    uploadProfilePicture(getUniqueFileName(profilePicture.current.path), profilePicture.current.path, (status, data) => {
-      if (status === STATUS.SUCCESS) {
-        updateUser({
-          ...values,
-          photoUrl: data.photoUrl
-        });
-        profilePicture.current = null;
-      } else {
-        // if upload fails, show error and save rest of the form data
-        updateUser(values);
-        // show a fail message
-      }
-    });
-  };
-
-  const updateUser = (values) => {
-    updateUserById(user.userId, values, (status) => {
-      if (status === STATUS.SUCCESS) {
-        refreshUser();
-      } else {
-        // show error
-      }
-      setIsLoading(false);
-      goBack();
-    });
-  };
-
   const onPressSave = (values) => {
+    processChanges(values);
+  };
+
+  const processChanges = async (values) => {
     setIsLoading(true);
-    // if the user has changed the profile picture, upload it and save form data, else, save form data
+    let copyOfValues = cloneDeep(values);
+    // if the user has changed the profile picture, upload it
     if (profilePicture.current?.path) {
-      uploadPhoto(values);
-    } else {
-      updateUser(values);
+      try {
+        const photoUrl = await uploadProfilePicture(getUniqueFileName(profilePicture.current.path), profilePicture.current.path);
+        copyOfValues = set(copyOfValues, 'photoUrl', photoUrl);
+      } catch (_error) {
+        showErrorToast(t('errors.uploadError'));
+        setIsLoading(false);
+        return 0;
+      }
     }
+    // if user has changed, change the email
+    if (values?.email !== user?.email) {
+      try {
+        await changeEmail(values.email);
+        showSuccessToast(t('toast.emailChangeRequest'));
+      } catch (error) {
+        setIsLoading(false);
+        showErrorToast(t('errors.saveError'));
+        return 0;
+      }
+    }
+    try {
+      await updateUserById(user.userId, copyOfValues);
+      showSuccessToast(t('toast.saveSuccess'));
+      refreshUser();
+      goBack();
+    } catch (error) {
+      showErrorToast(t('errors.saveError'));
+    }
+    setIsLoading(false);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContentContainer}>
       <Header
-        title={editMode ? t('profile.editProfile') : t('profile.profile')}
+        title={editMode ? t('profileScreen.editProfile') : t('profileScreen.profile')}
         disabled={isLoading}
       />
       <Formik
         enableReinitialize
         initialValues={initialValues}
         onSubmit={onPressSave}
+        validationSchema={formSchema}
       >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
           <>
             <View style={styles.formContainer}>
               <View style={styles.profilePictureContainer}>
@@ -116,6 +128,18 @@ const ProfileForm = ({ editMode }) => {
                 disabled={isLoading || !editMode}
                 placeholder={t('contactScreen.lastNamePlaceholder')}
               />
+              {/* ### This input was hidden because the changing email of the user
+                  has few different approaches and needs more testing. */}
+              {/* <Input
+                title={t('contactScreen.email')}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                disabled={isLoading || !editMode}
+                errorText={(touched.email && errors.email)}
+                placeholder={t('contactScreen.emailPlaceholder')}
+                keyboardType='email-address'
+              /> */}
               <Input
                 title={t('contactScreen.phoneNumber')}
                 onChangeText={handleChange('phoneNumber')}
@@ -137,7 +161,7 @@ const ProfileForm = ({ editMode }) => {
             <View style={styles.bottomContainer}>
               <Button
                 onPress={editMode ? () => handleSubmit() : () => navigate(screens.editProfile)}
-                text={editMode ? t('profile.save') : t('profile.edit')}
+                text={editMode ? t('profileScreen.save') : t('profileScreen.edit')}
                 style={styles.buttonStyle}
                 disabled={isLoading}
                 isLoading={isLoading}

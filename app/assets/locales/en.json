@@ -13,7 +13,16 @@
         "auth/email-already-in-use": "The emails is already in use",
         "auth/invalid-credential": "Invalid credentials",
         "commonError": "Something went wrong...",
-        "emptyData": "No data available"
+        "emptyData": "No data available",
+        "signUpFail": "Failed to sign up",
+        "uploadError": "Failed to save profile picture",
+        "saveError": "Failed to save data",
+        "fetchError": "Failed to get user data",
+        "accessDenied": "Access denied!"
+    },
+    "toast": {
+        "saveSuccess": "Successfully saved!",
+        "emailChangeRequest": "A URL has been sent to new email, please follow the instruction there."
     },
     "loginScreen": {
         "title": "Welcome",
@@ -45,6 +54,8 @@
         "phoneNumberPlaceholder": "Enter your phone number",
         "address": "Mailing address",
         "addressPlaceholder": "Enter your mailing address",
+        "email": "Email",
+        "emailPlaceholder": "Enter your email",
         "next": "Next",
         "back": "Back"
     },
@@ -54,7 +65,7 @@
         "fNamePlaceholder": "John",
         "lNamePlaceholder": "Doe"
     },
-    "home": {
+    "homeScreen": {
         "organizers": "Organizers",
         "photos": "Photos",
         "allPhotos": "All Photos",
@@ -62,10 +73,20 @@
         "home": "Home",
         "profile": "Profile"
     },
-    "profile": {
+    "profileScreen": {
         "edit": "Edit",
         "save": "Save",
         "profile": "Profile",
         "editProfile": "Edit profile"
+    },
+    "postsScreen": {
+        "title": "Posts",
+        "noTitle": "Post title not available",
+        "noDescription": "Post description not available"
+    },
+    "commentsScreen": {
+        "title": "Comments",
+        "noName": "Name not available",
+        "noEmail": "Email not available"
     }
 }

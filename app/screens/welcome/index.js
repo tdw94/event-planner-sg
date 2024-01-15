@@ -9,10 +9,10 @@ import WhiteArrowIcon from '../../assets/svg/WhiteArrow.svg';
 import { uploadProfilePicture } from '../../services/firebase/storage';
 import { useNavigation } from '@react-navigation/native';
 import { screens } from '../../constants/screens';
-import { STATUS } from '../../constants/status';
 import { updateUserById } from '../../services/firebase/firestore';
 import { useUser } from '../../context/UserContext';
 import { getUniqueFileName } from '../../helpers/common';
+import { showErrorToast } from '../../components/toast';
 
 const Welcome = () => {
   const { t } = useTranslation();
@@ -27,40 +27,26 @@ const Welcome = () => {
   };
 
   const onPressNext = () => {
-    // if the user has selected a photo, upload it
-    if (selectedPicture.current?.path) {
-      uploadPhoto();
-    } else {
-      goToNext();
-    }
+    processForm();
   };
 
-  const uploadPhoto = () => {
+  const processForm = async () => {
     setIsLoading(true);
-    uploadProfilePicture(getUniqueFileName(selectedPicture.current.path), selectedPicture.current.path, (status, data) => {
-      if (status === STATUS.SUCCESS) {
-        updateProfilePicture(data.photoUrl);
-      } else {
-        goToNext();
-        // show a fail message
-      }
-    });
-  };
-
-  const updateProfilePicture = (photoUrl) => {
-    updateUserById(user.userId, {
-      photoUrl
-    }, (status) => {
-      if (status === STATUS.SUCCESS) {
+    // if the user has selected a photo, upload it and update the user, and go next. if fail, show a toast message
+    if (selectedPicture.current?.path) {
+      try {
+        const photoUrl = await uploadProfilePicture(getUniqueFileName(selectedPicture.current.path), selectedPicture.current.path);
+        await updateUserById(user.userId, {
+          photoUrl
+        });
         refreshUser();
+        setIsLoading(false);
+        navigate(screens.personalInfo);
+      } catch (_error) {
+        setIsLoading(false);
+        showErrorToast(t('errors.saveError'));
       }
-      goToNext();
-    });
-  };
-
-  const goToNext = () => {
-    setIsLoading(false);
-    navigate(screens.personalInfo);
+    }
   };
 
   return (

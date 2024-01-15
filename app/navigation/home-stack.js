@@ -1,30 +1,36 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { screens } from '../constants/screens';
-import Welcome from '../screens/welcome';
-import PersonalInfo from '../screens/personalInfo';
-import { useUser } from '../context/UserContext';
-import Drawer from './drawer';
+import Home from '../screens/home/home';
+import TabBar from '../components/tabBar';
+import Profile from '../screens/profile';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import EditProfile from '../screens/editProfile';
+import Posts from '../screens/posts';
+import Comments from '../screens/comments';
 
-const Stack = createNativeStackNavigator();
+const TabNavigator = createBottomTabNavigator();
+const HomeNavigator = createNativeStackNavigator();
 
+// navigator for home screens
 const HomeStack = () => {
-  const { freshUser } = useUser();
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <>
-        {freshUser
-          ? (
-            <>
-              <Stack.Screen name={screens.welcome} component={Welcome} />
-              <Stack.Screen name={screens.personalInfo} component={PersonalInfo} />
-            </>
-          )
-          : (
-            <Stack.Screen name={screens.homeDrawer} component={Drawer} />
-          )}
-      </>
-    </Stack.Navigator>
+    <HomeNavigator.Navigator screenOptions={{ headerShown: false }}>
+      <HomeNavigator.Screen name={screens.homeTabs} component={HomeTabs} />
+      <HomeNavigator.Screen name={screens.editProfile} component={EditProfile} />
+      <HomeNavigator.Screen name={screens.posts} component={Posts} />
+      <HomeNavigator.Screen name={screens.comments} component={Comments} />
+    </HomeNavigator.Navigator>
+  );
+};
+
+// tab navigator for home
+const HomeTabs = () => {
+  return (
+    <TabNavigator.Navigator screenOptions={{ headerShown: false }} tabBar={() => <TabBar />}>
+      <TabNavigator.Screen name={screens.home} component={Home} />
+      <TabNavigator.Screen name={screens.profile} component={Profile} />
+    </TabNavigator.Navigator>
   );
 };
 

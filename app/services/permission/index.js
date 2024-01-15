@@ -15,6 +15,10 @@ export const accessGalleryRead = async () => {
   return await checkMultipleCustom(aPermissions);
 };
 
+export const requestNotifications = async () => {
+  return await checkMultipleCustom([PERMISSIONS.ANDROID.POST_NOTIFICATIONS]);
+};
+
 const checkMultipleCustom = async (aPermissions) => {
   await checkMultiplePermissions(aPermissions);
   const results = await requestMultiplePermissions(aPermissions);

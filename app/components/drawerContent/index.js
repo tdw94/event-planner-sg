@@ -17,6 +17,7 @@ const DrawerContent = () => {
     <View style={styles.drawer}>
       <View>
         <View style={styles.userDataContainer}>
+          {/* user details */}
           <UserDataTile
             name={`${user?.firstName || t('drawer.fNamePlaceholder')} ${user?.lastName || t('drawer.lNamePlaceholder')}`}
             email={`${user?.email || ''}`}

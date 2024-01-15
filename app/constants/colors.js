@@ -5,5 +5,8 @@ export const colors = {
   lightOrange: 'rgba(218, 94, 66, 0.08)',
   lightGrey: '#C5C6C8',
   orange: '#DA5E42',
-  red: '#DB2424'
+  red: '#DB2424',
+  success: '#51a351',
+  error: '#bd362f',
+  info: '#2f96b4'
 };

@@ -1,15 +1,7 @@
 import storage from '@react-native-firebase/storage';
-import { STATUS } from '../../constants/status';
 
-export const uploadProfilePicture = (fileName, filePath, onDone) => {
+export const uploadProfilePicture = async (fileName, filePath) => {
   const reference = storage().ref(`/profile-pictures/${fileName}`);
-  reference.putFile(filePath).then(() => {
-    reference.getDownloadURL().then((photoUrl) => {
-      onDone(STATUS.SUCCESS, { photoUrl });
-    }).catch(() => {
-      onDone(STATUS.FAIL);
-    });
-  }).catch(() => {
-    onDone(STATUS.FAIL);
-  });
+  await reference.putFile(filePath);
+  return await reference.getDownloadURL();
 };

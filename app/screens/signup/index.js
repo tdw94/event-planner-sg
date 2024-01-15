@@ -13,7 +13,6 @@ import i18n from '../../../i18n';
 import SecureInput from '../../components/input/SecureInput';
 import Button from '../../components/button/Button';
 import { signUp } from '../../services/firebase/auth';
-import { STATUS } from '../../constants/status';
 import { ERROR_CODES } from '../../constants/errorCodes';
 import { strongPasswordRegExp } from '../../constants/regex';
 import { useNavigation } from '@react-navigation/native';
@@ -37,18 +36,23 @@ const SignUp = () => {
 
   const onPressSignUp = (values) => {
     setErrorText('');
+    userSignUp(values);
+  };
+
+  const userSignUp = async (values) => {
     setIsLoading(true);
-    signUp(values.email, values.password, (status, response) => {
+    try {
+      await signUp(values.email, values.password);
       setIsLoading(false);
-      if (status === STATUS.FAIL) {
-        if (response === ERROR_CODES.AUTH_INVALID_EMAIL ||
-          response === ERROR_CODES.AUTH_ALREADY_IN_USE) {
-          setErrorText(t(`errors.${response}`));
-        } else {
-          setErrorText(t('errors.commonError'));
-        }
+    } catch (error) {
+      setIsLoading(false);
+      if (error?.code === ERROR_CODES.AUTH_INVALID_EMAIL ||
+        error?.code === ERROR_CODES.AUTH_ALREADY_IN_USE) {
+        setErrorText(t(`errors.${error.code}`));
+      } else {
+        setErrorText(t('errors.commonError'));
       }
-    });
+    }
   };
 
   return (

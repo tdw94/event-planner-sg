@@ -6,9 +6,12 @@ import { accessGalleryRead } from '../../services/permission';
 import ImagePicker from 'react-native-image-crop-picker';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
+import { showErrorToast } from '../toast';
+import { useTranslation } from 'react-i18next';
 
 const ProfilePicturePicker = ({ onDone, imageUri, Icon, editMode, disabled }) => {
   const [profileImage, setProfileImage] = useState();
+  const { t } = useTranslation();
 
   const openGallery = (returnObject) => {
     ImagePicker.openPicker({
@@ -32,7 +35,9 @@ const ProfilePicturePicker = ({ onDone, imageUri, Icon, editMode, disabled }) =>
         returnObject(null);
       });
   };
+
   const onPressPicker = () => {
+    // when on press, check for permission, if granted, open the picker
     accessGalleryRead()
       .then((granted) => {
         if (granted) {
@@ -43,7 +48,7 @@ const ProfilePicturePicker = ({ onDone, imageUri, Icon, editMode, disabled }) =>
         }
       })
       .catch(() => {
-        //  this is intentional
+        showErrorToast(t('errors.accessDenied'));
       });
   };
   return (
