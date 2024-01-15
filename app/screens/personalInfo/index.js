@@ -20,7 +20,7 @@ const PersonalInfo = () => {
   const { user, refreshUser, setFreshUser } = useUser();
 
   const onPressNext = (values) => {
-    processForm();
+    processForm(values);
   };
 
   const processForm = async (values) => {
@@ -32,6 +32,7 @@ const PersonalInfo = () => {
       refreshUser();
     } catch (error) {
       showErrorToast(t('errors.saveError'));
+      setIsLoading(false);
     }
   };
 
