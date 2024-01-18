@@ -1,14 +1,14 @@
 import messaging from '@react-native-firebase/messaging';
 
 export const foregroundNotification = (message) => {
-  return messaging().onMessage((remoteMessage) => {
+  return messaging().onMessage(async (remoteMessage) => {
     message(remoteMessage);
   });
 };
 
 export const backgroundNotificationHandler = (message) => {
   // Register background handler
-  messaging().setBackgroundMessageHandler((remoteMessage) => {
+  messaging().setBackgroundMessageHandler(async (remoteMessage) => {
     message(remoteMessage);
   });
 };
