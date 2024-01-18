@@ -9,6 +9,8 @@ import './i18n';
 import 'react-native-gesture-handler';
 import { backgroundNotificationHandler } from './app/services/firebase/notification';
 
-backgroundNotificationHandler();
+backgroundNotificationHandler(() => {
+  // handle Quit state notifications here
+});
 
 AppRegistry.registerComponent(appName, () => App);
