@@ -55,3 +55,7 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
     ├───firebase
     └───permission
 ```
+
+### Demo video
+
+[![Watch the video](https://img.youtube.com/vi/lOeBDC_2pXY/hqdefault.jpg)](https://youtu.be/lOeBDC_2pXY)
